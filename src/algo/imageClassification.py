@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow.keras.datasets import fashion_mnist 
 from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+# from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 
 # Download Zalando Fashion MNIST data
@@ -25,7 +25,7 @@ width = 0.25
 height = 0.25
 zoom = [0.5, 1.5]
 
-datagen= ImageDataGenerator(
+datagen= tf.keras.preprocessing.image.ImageDataGenerator(
     rotation_range = rotation,
     width_shift_range = width,
     height_shift_range = height,
