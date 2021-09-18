@@ -13,7 +13,8 @@ def create_app() -> Flask:
   db.init_app(app=app)
 
   if not path.isfile(DB_PATH):
-    from src.models import User, History, Clothes, Type
+    from src.models import User, Type, Clothes, History
+    db.create_all(app=app)
 
 
   from .routes import routes
