@@ -47,35 +47,18 @@ def load_image(filename):
 	return img
 
 # load an image and predict the class
-def run_example():
+def get_type():
 
 	# load the image
-	img = load_image('ressources/pantalon2.png')
+	# img = load_image('ressources/tshirt.png')
 	# load model
 	model = tf.keras.models.load_model('final_model.h5')
-	model2 = tf.keras.models.load_model('final_model.h5')
-	model3 = tf.keras.models.load_model('final_model.h5')
-	model4 = tf.keras.models.load_model('final_model.h5')
-	model5 = tf.keras.models.load_model('final_model.h5')
-	model6 = tf.keras.models.load_model('final_model.h5')
 
 	# predict the class
-	result = model.predict(img)
-	result2 = model2.predict(img)
-	result3 = model3.predict(img)
-	result4 = model4.predict(img)
-	result5 = model5.predict(img)
-	result6 = model6.predict(img)
+	# result = model.predict(img)
 
-	# print(result[0])
-	print(np.argmax(result, axis=1))
-	print(np.argmax(result2, axis=1))
-	print(np.argmax(result3, axis=1))
-	print(np.argmax(result4, axis=1))
-	print(np.argmax(result5, axis=1))
-	print(np.argmax(result6, axis=1))
-
+	# print(np.argmax(result, axis=1))
 	
  
 # entry point, run the example
-run_example()
+get_type()
