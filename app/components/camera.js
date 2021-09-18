@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Camera } from 'expo-camera';
+import { Camera } from 'expo-camera'
 
+const SERVER_URL = ''
+
+const toDataURL = url => fetch(url)
+  .then(response => response.blob())
+  .then(blob => new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onloadend = () => resolve(reader.result)
+    reader.onerror = reject
+    reader.readAsDataURL(blob)
+  }))
 
 export default () => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -11,7 +21,21 @@ export default () => {
     if (!camera) return
 
     const photo = await camera?.current?.takePictureAsync()
-    console.log(photo)
+    const base64 = await toDataURL(photo.uri)
+
+    const data = JSON.stringify({
+      uid: 1,
+      height: photo.height,
+      width: photo.width,
+      image: base64
+    })
+    console.log(data)
+
+    fetch(`${SERVER_URL}/image/new`, {
+      method: 'POST',
+      body: data
+    })
+    console.log(photo, JSON.stringify(base64, null, 4))
   }
 
   useEffect(() => {
@@ -65,11 +89,12 @@ export default () => {
           <TouchableOpacity
             onPress={takePicture}
             style={{
-              width: 70,
-              height: 70,
-              bottom: 0,
+              width: 90,
+              height: 90,
+              bottom: 30,
               borderRadius: 50,
-              backgroundColor: '#fff'
+              borderWidth: 9,
+              borderColor: '#ffffffB6'
             }}
             />
         </View>

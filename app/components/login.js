@@ -60,6 +60,7 @@ export default () => {
         <Pressable onPress={showModal} style={{position: 'absolute',width: width-20, left: 10, bottom: 10}}>
           <View
             style={{
+              paddingTop: height - (_spacing * 5),
               paddingVertical: _spacing,
               paddingBottom: _spacing * 2,
               width: '100%',
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#ecf0f1',
-    position: 'relative',
+    position: 'relative'
   },
   logo: {
     padding: _spacing,
