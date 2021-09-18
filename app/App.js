@@ -7,6 +7,7 @@ const Stack = createStackNavigator();
 import Login from './components/login'
 import Gallery from './components/gallery'
 import Camera from './components/camera'
+import Closet from './components/closet'
 
 
 
@@ -14,21 +15,24 @@ import Camera from './components/camera'
 
 export default function App() {
   const contextUserinitialState = {
-    id: undefined
+    id: 1
   }
 
   const [user, setUser] = React.useState(contextUserinitialState)
 
-  const setID = (id) => setUser({ ...user, id: id })
+  const setID = (id) => {
+    console.log({ ...user, id: id })
+    setUser(() => ({ ...user, id: id }))
+  }
   
   return (
     <NavigationContainer>
       <UserContext.Provider value={{ ...user, ...{ setID } }}>
-      <Stack.Navigator initialRouteName="history"  screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="closet"  screenOptions={{ headerShown: false }}>
         <Stack.Screen name="login" component={Login}/>
         <Stack.Screen name="history" component={Gallery}/>
         <Stack.Screen name="camera" component={Camera}/>
-        {/* <Stack.Screen name="closet" /> */}
+        <Stack.Screen name="closet" component={Closet}/>
       </Stack.Navigator>
     </UserContext.Provider>
     </NavigationContainer>

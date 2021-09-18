@@ -29,7 +29,6 @@ export default ({ navigation }) => {
   const [pwd, setPwd] = React.useState('')
 
   const login = async (setID) => {
-    console.log(email, pwd)
     const data = await fetch(`${SERVER_URL}/auth/login`, {
       method: 'POST',
       headers: {
@@ -47,9 +46,7 @@ export default ({ navigation }) => {
   }
 
   
-
   console.log(context)
-
   if (context.id !== undefined) {
     navigation.push('camera')
   }
