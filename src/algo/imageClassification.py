@@ -56,6 +56,11 @@ model.compile(
     metrics = ['accuracy']
 )
 
+training_x = np.asarray(training_x)
+training_y = np.asarray(training_y)
+tests_x = np.asarray(tests_x)
+tests_y = np.asarray(tests_y)
+
 training_data_gen = datagen.flow(training_x, training_y, batch_size=32)
 
 # Training
