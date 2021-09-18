@@ -1,6 +1,6 @@
 import io
 import hashlib
-from flask import Blueprint, Flask, render_template, request
+from flask import Blueprint, Flask, render_template, request, jsonify
 from src.models import User, Clothes
 from src import db
 import base64
@@ -15,10 +15,11 @@ routes = Blueprint("routes", __name__)
 def entry_point():
   return render_template('index.jinja2')
 
-@routes.route('/auth/login', methods=('GET', 'POST'))
+@routes.route('/auth/login', methods=['POST'])
 def auth_login():
-  email = request.form['email']
-  password = request.form['password']
+  data = request.json
+  email = data['email']
+  password = data['password']
 
   if email and password:
     login = User.query.filter_by(
@@ -27,16 +28,16 @@ def auth_login():
     ).first()
 
     if login is not None:
-      return {
+      return jsonify({
         'id': login.id
-      }
-  return { "Status": "erreur" }
+      })
+  return jsonify({ "Status": "erreur" })
 
-@routes.route('/auth/register', methods=('GET', 'POST'))
+@routes.route('/auth/register', methods=['POST'])
 def auth_register():
-  print(request.form)
-  email = request.form['email']
-  password = request.form['password']
+  data = request.json
+  email = data['email']
+  password = data['password']
 
   new_user = User(
     email = email,
@@ -48,12 +49,14 @@ def auth_register():
 
   return { "email": email }
 
-@routes.route('/image/new', methods=('GET', 'POST'))
+@routes.route('/image/new', methods=['POST'])
 def image_new():
-  uid = request.form['id']
-  image = request.form['image']
-  height = request.form['height']
-  width = request.form['width']
+  data = request.json
+  uid = data['uid']
+  image = data['image']
+  print(image)
+  height = data['height']
+  width = data['width']
 
   # on crée une copie de l'image en format 28px par 28px
   buffer = io.BytesIO()
