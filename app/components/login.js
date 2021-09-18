@@ -12,19 +12,47 @@ import { AntDesign, MaterialIcons } from '@expo/vector-icons'
 import background from '../ressources/background.png'
 import { UserContext } from '../context/context'
 
+
+
+const SERVER_URL = 'http://192.168.0.198:5000'
+
+
+
 const { width, height } = Dimensions.get('screen');
 
 const _logoSize = Math.max(width * 0.14, 64);
 const _spacing = 16;
 
-export default () => {
+export default ({ navigation }) => {
   const context = React.useContext(UserContext)
+  const [email, setEmail] = React.useState('')
+  const [pwd, setPwd] = React.useState('')
+
+  const login = async (setID) => {
+    console.log(email, pwd)
+    const data = await fetch(`${SERVER_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+
+      body: JSON.stringify({
+        email: email,
+        password: pwd
+      })
+    })
+
+    const { id } =  await data.json()
+    id && setID(id)
+  }
+
+  
 
   console.log(context)
 
-  // if (context.id !== undefined) {
-  //   nagivation.push('camera')
-  // }
+  if (context.id !== undefined) {
+    navigation.push('camera')
+  }
   const bottomSheetModalRef = React.useRef(null)
 
   const dynamicAnimation = useDynamicAnimation(() => ({
@@ -128,6 +156,7 @@ export default () => {
                 placeholderTextColor="rgba(0,0,0,0.3)"
                 shouldCancelWhenOutside
                 placeholder="Email"
+                onChangeText={setEmail}
                 style={[
                   {
                     borderBottomWidth: 2,
@@ -142,6 +171,7 @@ export default () => {
               <BottomSheetTextInput
                 placeholderTextColor="rgba(0,0,0,0.3)"
                 placeholder="******"
+                onChangeText={setPwd}
                 secureTextEntry
                 style={[
                   {
@@ -159,7 +189,7 @@ export default () => {
               state={dynamicAnimation}
               delay={500}
               style={{ justifyContent: 'center' }}>
-              <Pressable style={{ marginBottom: _spacing }}>
+              <Pressable style={{ marginBottom: _spacing }} onPress={async () => await login(context.setID)}>
                 <View
                   style={{
                     backgroundColor: '#c4767e',

@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 
 get-pip.py
+# database sqlite
+swiftfit.db

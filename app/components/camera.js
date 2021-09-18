@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Camera } from 'expo-camera'
 import { UserContext } from '../context/context'
 
-const SERVER_URL = ''
+const SERVER_URL = 'http://192.168.0.198:5000'
 
 const toDataURL = url => fetch(url)
   .then(response => response.blob())
@@ -32,7 +32,7 @@ export default ({ navigation }) => {
     const base64 = await toDataURL(photo.uri)
 
     const data = JSON.stringify({
-      uid: 1,
+      uid: context.id,
       height: photo.height,
       width: photo.width,
       image: base64
@@ -41,7 +41,10 @@ export default ({ navigation }) => {
 
     fetch(`${SERVER_URL}/image/new`, {
       method: 'POST',
-      body: data
+      body: data,
+      headers: {
+        'Content-Type': 'application/json'
+      },
     })
     console.log(photo, JSON.stringify(base64, null, 4))
   }

@@ -8,10 +8,22 @@ import Login from './components/login'
 import Gallery from './components/gallery'
 import Camera from './components/camera'
 
+
+
+
+
 export default function App() {
+  const contextUserinitialState = {
+    id: undefined
+  }
+
+  const [user, setUser] = React.useState(contextUserinitialState)
+
+  const setID = (id) => setUser({ ...user, id: id })
+  
   return (
     <NavigationContainer>
-      <UserContext.Provider value={{ id: 1 }}>
+      <UserContext.Provider value={{ ...user, ...{ setID } }}>
       <Stack.Navigator initialRouteName="history"  screenOptions={{ headerShown: false }}>
         <Stack.Screen name="login" component={Login}/>
         <Stack.Screen name="history" component={Gallery}/>

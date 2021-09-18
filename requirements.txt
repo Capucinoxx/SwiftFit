@@ -1,3 +1,5 @@
 Flask
+Flask-SQLAlchemy
 Tensorflow
 opencv-python
+Pillow
