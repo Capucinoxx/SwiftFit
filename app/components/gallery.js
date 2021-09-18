@@ -15,7 +15,7 @@ import {
 } from 'react-native'
 const { width, height } = Dimensions.get('screen')
 
-const API_KEY = ''
+const API_KEY = '563492ad6f917000010000011ce76314e86a4f05abf1138ca17632ef'
 
 const fetchPexelsDotCom = async () => {
   const data = await fetch(
@@ -78,11 +78,10 @@ export default () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <StatusBar hidden />
       <FlatList
         ref={maxRef}
         data={photos}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id.toString() + '1'}
         horizontal
         pagingEnabled
         onMomentumScrollEnd={(ev) => {

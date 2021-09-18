@@ -1,11 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Gallery from './components/gallery';
+import React from 'react'
+import { StyleSheet } from 'react-native'
+import Camera from './components/camera'
 
 export default function App() {
   return (
-    <Gallery />
+    <Camera />
   );
 }
 
