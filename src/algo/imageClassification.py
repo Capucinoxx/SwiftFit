@@ -79,4 +79,6 @@ history = model.fit(
 
 print('Model trained...')
 
+model.evaluate(tests_x, tests_y)
+
 model.save("img_model")

@@ -6,7 +6,7 @@ from PIL import Image
 
 img = image.load_img('shoes28.png', target_size=(28,28), grayscale=True)
 # img.show()
-print(img.size)
+# print(img.size)
 # x = image.img_to_array(img)
 # x = np.expand_dims(x, axis=0)
 
@@ -15,17 +15,20 @@ print(img.size)
 # img.reshape(img.shape[0], 28, 28, 1)
 # img = img.resize((28, 28), Image.ANTIALIAS)
 
-# (training_x, training_y), (tests_x, tests_y) = fashion_mnist.load_data()
+(training_x, training_y), (tests_x, tests_y) = fashion_mnist.load_data()
 
 # Reshape data (1, 28, 28, 1)
 img = tf.reshape(img, [28, 28, 1])
 # img = img.reshape(img.shape[0], 28, 28, 1)
-# tests_x = tests_x.reshape(tests_x.shape[0], 28, 28, 1)
+tests_x = tests_x.reshape(tests_x.shape[0], 28, 28, 1)
 
 
 reconstructed_model = tf.keras.models.load_model('img_model')
 prediction = reconstructed_model.predict(tf.expand_dims(img,axis=0))
-# prediction = reconstructed_model.predict(tests_x)
+# prediction = reconstructed_model.predict(tests_x[0:5])
 
 print('Predictions :')
-print(prediction)
+# print(np.argmax(prediction, axis=1))
+print(np.argmax(prediction))
+
+# print(prediction)
