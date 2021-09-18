@@ -54,6 +54,7 @@ export default () => {
         <Pressable onPress={showModal}>
           <View
             style={{
+              paddingTop: height - (_spacing * 5),
               paddingVertical: _spacing,
               paddingBottom: _spacing * 2,
               width: '100%',
@@ -61,6 +62,7 @@ export default () => {
               justifyContent: 'center',
               backgroundColor: '#fff',
               borderRadius: 32,
+              position: 'relative'
             }}>
             <AntDesign name="lock1" size={32} color="#053eff" />
           </View>
@@ -196,6 +198,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#ecf0f1',
+    position: 'relative'
   },
   logo: {
     padding: _spacing,
