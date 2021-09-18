@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Camera } from 'expo-camera'
+import { UserContext } from '../context/context'
 
 const SERVER_URL = ''
 
@@ -13,7 +14,14 @@ const toDataURL = url => fetch(url)
     reader.readAsDataURL(blob)
   }))
 
-export default () => {
+export default ({ navigation }) => {
+  const context = React.useContext(UserContext)
+  console.log(context)
+  if (context.id === undefined) {
+    navigation.push('login')
+  }
+
+
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const camera = React.useRef(null)

@@ -1,18 +1,13 @@
 import * as React from 'react'
 import {
-  StatusBar,
   FlatList,
   Image,
   Animated,
-  Text,
   View,
   Dimensions,
-  StyleSheet,
   TouchableOpacity,
-  Easing,
-  SafeAreaViewBase,
-  SafeAreaView,
 } from 'react-native'
+import { UserContext } from '../context/context'
 const { width, height } = Dimensions.get('screen')
 
 const API_KEY = '563492ad6f917000010000011ce76314e86a4f05abf1138ca17632ef'
@@ -33,7 +28,13 @@ const fetchPexelsDotCom = async () => {
 }
 
 const THUMB_SIZE = 80
-export default () => {
+export default ({ navigation }) => {
+  const context = React.useContext(UserContext)
+  console.log(context)
+  if (context.id === undefined) {
+    navigation.push('login')
+  }
+
   const scrollY = React.useRef(new Animated.Value(0)).current
   const [photos, setPhotos] = React.useState(null)
   const [activeIndex, setActiveIndex] = React.useState(0)

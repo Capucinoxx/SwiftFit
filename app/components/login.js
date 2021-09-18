@@ -10,6 +10,7 @@ import {
 import Constants from 'expo-constants'
 import { AntDesign, MaterialIcons } from '@expo/vector-icons'
 import background from '../ressources/background.png'
+import { UserContext } from '../context/context'
 
 const { width, height } = Dimensions.get('screen');
 
@@ -17,6 +18,13 @@ const _logoSize = Math.max(width * 0.14, 64);
 const _spacing = 16;
 
 export default () => {
+  const context = React.useContext(UserContext)
+
+  console.log(context)
+
+  // if (context.id !== undefined) {
+  //   nagivation.push('camera')
+  // }
   const bottomSheetModalRef = React.useRef(null)
 
   const dynamicAnimation = useDynamicAnimation(() => ({
@@ -57,12 +65,10 @@ export default () => {
           style={[StyleSheet.absoluteFillObject, { opacity: 1 }]}
         />
 
-        <Pressable onPress={showModal} style={{position: 'absolute',width: width-20, left: 10, bottom: 10}}>
+        <Pressable onPress={showModal} style={{position: 'absolute',width: width-30, left: 15, bottom: 30}}>
           <View
             style={{
-              paddingTop: height - (_spacing * 5),
               paddingVertical: _spacing,
-              paddingBottom: _spacing * 2,
               width: '100%',
               alignItems: 'center',
               justifyContent: 'center',
