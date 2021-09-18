@@ -45,7 +45,7 @@ model = tf.keras.models.Sequential([
     
     tf.keras.layers.Dropout(0.5),
     tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(100, activation='relu'),
+    tf.keras.layers.Dense(50, activation='relu'),
     tf.keras.layers.Dense(10, activation="softmax")
 ])
 
@@ -65,7 +65,7 @@ training_data_gen = datagen.flow(training_x, training_y, batch_size=32)
 
 # Training
 print('Model training...')
-epochs = 60
+epochs = 150
 batch = 32
 
 history = model.fit(

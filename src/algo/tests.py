@@ -15,12 +15,12 @@ img = image.load_img('tshirt.png', target_size=(28,28), grayscale=True)
 # img.reshape(img.shape[0], 28, 28, 1)
 # img = img.resize((28, 28), Image.ANTIALIAS)
 
-(training_x, training_y), (tests_x, tests_y) = fashion_mnist.load_data()
+# (training_x, training_y), (tests_x, tests_y) = fashion_mnist.load_data()
 
 # Reshape data (1, 28, 28, 1)
-img = tf.reshape(img, [28, 28, 1])
+# img = tf.reshape(img, [28, 28, 1])
 # img = img.reshape(img.shape[0], 28, 28, 1)
-tests_x = tests_x.reshape(tests_x.shape[0], 28, 28, 1)
+# tests_x = tests_x.reshape(tests_x.shape[0], 28, 28, 1)
 
 
 reconstructed_model = tf.keras.models.load_model('img_model')
