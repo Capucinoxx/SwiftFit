@@ -6,24 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SwiftFit</title>
 
-  <style href="/static/css/style.css"></style>
+  <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
   <h1>Développement de SwiftFit</h1>
 
   <main id="camera">
-    <!-- Camera view -->
+    {# Camera view #}
     <video id="camera--view" autoplay playsinline></video>
   
-    <!-- Camera sensor -->
+    {# Camera sensor #}
     <canvas id="camera--sensor"></canvas>
   
-    <!-- Camera output -->
+    {# Camera output #}
     <img src="//:0" alt="" id="camera--output">
   
-    <!-- Camera trigger -->
+    {# Camera trigger #}
     <button id="camera--trigger">Take a Picture</button>
   </main>
+
+  <div class="error"></div>
 
   <script src="/static/js/app.js"></script>
 </body>
