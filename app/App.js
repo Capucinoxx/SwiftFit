@@ -1,10 +1,11 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import Camera from './components/camera'
+import Login from './components/login'
 
 export default function App() {
   return (
-    <Camera />
+    <Login />
   );
 }
 
