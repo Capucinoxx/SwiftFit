@@ -88,7 +88,7 @@ def get_images(id):
   return clothes
 
 @routes.route('/history/<id>')
-def get_images(id):
+def get_history(id):
   histories: Optional[History] = History.query.filter_by(user_id=id).limit(100)
 
   if not histories:
@@ -98,4 +98,4 @@ def get_images(id):
 
 @routes.route('/clothes/<id>/<clothes>')
 def del_clothes(id, clothes):
-  return Clothes.query.delete(Clothes.query.filter_by(id=clothes and user_id=id).first())
+  return Clothes.query.delete(Clothes.query.filter_by(id=clothes, user_id=id).first())
