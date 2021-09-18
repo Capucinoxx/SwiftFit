@@ -1,3 +1,4 @@
 Flask
 Tensorflow
 opencv-python
+SciPy
