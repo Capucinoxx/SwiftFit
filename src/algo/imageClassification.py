@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.datasets import fashion_mnist 
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-
+import numpy as np
 
 # Download Zalando Fashion MNIST data
 (training_x, training_y), (tests_x, tests_y) = fashion_mnist.load_data()
@@ -57,3 +57,21 @@ model.compile(
 )
 
 training_data_gen = datagen.flow(training_x, training_y, batch_size=32)
+
+# Training
+print('Model training...')
+epochs = 60
+batch = 32
+
+history = model.fit(
+    training_data_gen,
+    epochs = epochs,
+    batch_size = batch,
+    validation_data = (tests_x, tests_y),
+    steps_per_epoch = int(np.ceil(60000 / float(batch))),
+    validation_steps = int(np.ceil(10000 / float(batch)))
+)
+
+print('Model trained...')
+
+model.save("img_model")
