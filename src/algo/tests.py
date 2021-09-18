@@ -4,7 +4,7 @@ import numpy as np
 from tensorflow.keras.datasets import fashion_mnist 
 from PIL import Image
 
-img = image.load_img('shoes28.png', target_size=(28,28), grayscale=True)
+img = image.load_img('tshirt.png', target_size=(28,28), grayscale=True)
 # img.show()
 # print(img.size)
 # x = image.img_to_array(img)
