@@ -1,4 +1,5 @@
 Flask
+Flask-SQLAlchemy
 Tensorflow
 opencv-python
 SciPy
