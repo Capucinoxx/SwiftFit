@@ -8,6 +8,8 @@ db = SQLAlchemy()
 
 def create_app() -> Flask:
   app = Flask(__name__, template_folder='templates')
+  app.config["SQLALCHEMY_ECHO"] = True
+  app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_PATH}'
   app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
   db.init_app(app=app)
