@@ -77,3 +77,25 @@ def image_new():
   db.session.commit()
 
   return { "code": "success" }
+
+@routes.route('/clothes/<id>')
+def get_images(id):
+  clothes: Optional[Clothes] = Clothes.query.filter_by(user_id=id).limit(100)
+
+  if not clothes:
+    return []
+
+  return clothes
+
+@routes.route('/history/<id>')
+def get_images(id):
+  histories: Optional[History] = History.query.filter_by(user_id=id).limit(100)
+
+  if not histories:
+    return []
+
+  return histories
+
+@routes.route('/clothes/<id>/<clothes>')
+def del_clothes(id, clothes):
+  return Clothes.query.delete(Clothes.query.filter_by(id=clothes and user_id=id).first())
