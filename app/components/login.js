@@ -9,6 +9,7 @@ import {
 } from '@gorhom/bottom-sheet'
 import Constants from 'expo-constants'
 import { AntDesign, MaterialIcons } from '@expo/vector-icons'
+import background from '../ressources/background.png'
 
 const { width, height } = Dimensions.get('screen');
 
@@ -43,15 +44,20 @@ export default () => {
     dynamicAnimation.animateTo((current) => ({ ...current, opacity: 0, translateY: 40 }));
   }, []);
 
+  const backgroundUri = Image.resolveAssetSource(background).uri
+
   return (
     <BottomSheetModalProvider>
-      <View style={StyleSheet.container}>
+      <View style={{ height, width, position: 'relative'}}>
         <Image 
+        source={{
+          uri: backgroundUri
+        }}
           resizeMode="cover"
           style={[StyleSheet.absoluteFillObject, { opacity: 1 }]}
         />
 
-        <Pressable onPress={showModal}>
+        <Pressable onPress={showModal} style={{position: 'absolute',width: width-20, left: 10, bottom: 10}}>
           <View
             style={{
               paddingVertical: _spacing,
@@ -61,8 +67,10 @@ export default () => {
               justifyContent: 'center',
               backgroundColor: '#fff',
               borderRadius: 32,
+              position: 'relative'
             }}>
-            <AntDesign name="lock1" size={32} color="#053eff" />
+            
+            <AntDesign name="lock1" size={35} color="#c4767e" />
           </View>
         </Pressable>
         <BottomSheetModal
@@ -77,15 +85,15 @@ export default () => {
                   style={{
                     height: 64,
                     borderBottomWidth: 2,
-                    borderBottomColor: '#976272',
-                    backgroundColor: '#c3767e56',
+                    borderBottomColor: '#c4767e',
+                    backgroundColor: '#c4767e',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
                   <MaterialIcons
                     name="keyboard-arrow-down"
-                    size={36}
-                    color="#6a565f"
+                    size={50}
+                    color="#ffffff"
                     style={{ transform: [{ scaleX: 1.4 }] }}
                   />
                 </View>
@@ -105,7 +113,8 @@ export default () => {
                 styles.regular,
                 { fontSize: 32, color: '#000', marginBottom: _spacing * 2 },
               ]}>
-              Connecte toi pour du panache
+              Welcome to SwiftFit.
+              Let's sign you in.
             </MotiText>
             <MotiView state={dynamicAnimation} delay={300}>
               <BottomSheetTextInput
@@ -146,13 +155,13 @@ export default () => {
               <Pressable style={{ marginBottom: _spacing }}>
                 <View
                   style={{
-                    backgroundColor: '#053eff',
+                    backgroundColor: '#c4767e',
                     borderRadius: 16,
                     paddingVertical: _spacing,
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                  <Text style={[{ fontSize: 16, color: '#fff' }]}>
+                  <Text style={[{ fontSize: 25, color: '#fff' }]}>
                     Sign in
                   </Text>
                 </View>
@@ -164,14 +173,14 @@ export default () => {
                   alignSelf: 'center',
                 }}>
                 <Text style={[{ fontSize: 16 }]}>
-                  You have no account?
+                  Don't have an account?
                 </Text>
                 <Pressable>
                   <Text
                     style={[
                       {
                         fontSize: 16,
-                        color: '#053eff',
+                        color: '#c4767e',
                         marginLeft: _spacing / 2,
                       },
                     ]}>
@@ -196,6 +205,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#ecf0f1',
+    position: 'relative',
   },
   logo: {
     padding: _spacing,
