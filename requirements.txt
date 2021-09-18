@@ -2,8 +2,5 @@ Flask
 Flask-SQLAlchemy
 Tensorflow
 opencv-python
-<<<<<<< HEAD
 SciPy
-=======
 Pillow
->>>>>>> c5b8610c92a7ba31523dc045b40e302b4ab49e4e
