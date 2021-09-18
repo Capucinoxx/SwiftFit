@@ -48,11 +48,8 @@ def load_image(filename):
 
 # load an image and predict the class
 def get_type():
-
-	# load the image
 	# img = load_image('ressources/tshirt.png')
-	# load model
-	model = tf.keras.models.load_model('final_model.h5')
+	type = self.model.prefict(img)
 
 	# predict the class
 	# result = model.predict(img)
