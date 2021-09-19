@@ -1,6 +1,7 @@
 import io
 import hashlib
-from flask import Blueprint, Flask, render_template, request
+import cv2
+from flask import Blueprint, Flask, render_template, request, jsonify
 from src.models import User, Clothes
 from src import db
 import base64
@@ -15,10 +16,11 @@ routes = Blueprint("routes", __name__)
 def entry_point():
   return render_template('index.jinja2')
 
-@routes.route('/auth/login', methods=('GET', 'POST'))
+@routes.route('/auth/login', methods=['POST'])
 def auth_login():
-  email = request.form['email']
-  password = request.form['password']
+  data = request.json
+  email = data['email']
+  password = data['password']
 
   if email and password:
     login = User.query.filter_by(
@@ -27,16 +29,16 @@ def auth_login():
     ).first()
 
     if login is not None:
-      return {
+      return jsonify({
         'id': login.id
-      }
-  return { "Status": "erreur" }
+      })
+  return jsonify({ "Status": "erreur" })
 
-@routes.route('/auth/register', methods=('GET', 'POST'))
+@routes.route('/auth/register', methods=['POST'])
 def auth_register():
-  print(request.form)
-  email = request.form['email']
-  password = request.form['password']
+  data = request.json
+  email = data['email']
+  password = data['password']
 
   new_user = User(
     email = email,
@@ -48,33 +50,35 @@ def auth_register():
 
   return { "email": email }
 
-@routes.route('/image/new', methods=('GET', 'POST'))
+@routes.route('/image/new', methods=['POST'])
 def image_new():
-  uid = request.form['id']
-  image = request.form['image']
-  height = request.form['height']
-  width = request.form['width']
+  uid = request.form['uid']
+  image = request.files['image']
+  img = Image.open(image)
+  img.show()
+  print(image)
 
-  # on crée une copie de l'image en format 28px par 28px
-  buffer = io.BytesIO()
-  imgdata = base64.b64decode(image)
-  img = Image.open(io.BytesIO(imgdata))
-  img28x28 = img.resize((28, 28))
-  img28x28.save(buffer, format="PNG")
+  # # on crée une copie de l'image en format 28px par 28px
+  # buffer = io.BytesIO()
+  # img = cv2.imread(image) 
+  # img28x28 = img.resize((28, 28))
+  # img28x28.save(buffer, format="PNG")
 
-  # on envoi img 28x28 a lIA 
-  type, color = 0,0 # a remplacer par le call d'IA
+  # print(buffer)
 
-  # on sotre dans la DB
-  new_img = Clothes(
-    image = image,
-    type = type,
-    color = color,
-    user = uid
-  )
+  # # on envoi img 28x28 a lIA 
+  # type, color = 0,0 # a remplacer par le call d'IA
 
-  db.session.add(new_img)
-  db.session.commit()
+  # # on sotre dans la DB
+  # new_img = Clothes(
+  #   image = image,
+  #   type = type,
+  #   color = color,
+  #   user = uid
+  # )
+
+  # db.session.add(new_img)
+  # db.session.commit()
 
   return { "code": "success" }
 
