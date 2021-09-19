@@ -1,14 +1,20 @@
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.preprocessing import image
+from pathlib import Path
+import os
 
 class Model(object):
     class __Model():
         def __init__(self):
-            self.img_model = tf.keras.models.load_model('final_model.h5')
+            working_path = Path().absolute()
+            path = os.path.join(working_path, 'final_model.h5')
+            self.img_model = tf.keras.models.load_model(path)
 
         def load_image(self, filename):
             # load the image
+            # working_path = Path().absolute()
+            # path = os.path.join(working_path, filename)
             img = image.load_img(filename, grayscale=True, target_size=(28, 28))
             # convert to array
             img = image.img_to_array(img)
