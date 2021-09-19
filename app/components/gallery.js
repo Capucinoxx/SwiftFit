@@ -30,7 +30,6 @@ const fetchPexelsDotCom = async () => {
 const THUMB_SIZE = 80
 export default ({ navigation }) => {
   const context = React.useContext(UserContext)
-  console.log(context)
   if (context.id === undefined) {
     navigation.push('login')
   }

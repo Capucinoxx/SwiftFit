@@ -28,7 +28,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <UserContext.Provider value={{ ...user, ...{ setID } }}>
-      <Stack.Navigator initialRouteName="closet"  screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="camera"  screenOptions={{ headerShown: false }}>
         <Stack.Screen name="login" component={Login}/>
         <Stack.Screen name="history" component={Gallery}/>
         <Stack.Screen name="camera" component={Camera}/>

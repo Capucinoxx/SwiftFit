@@ -2,17 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Camera } from 'expo-camera'
 import { UserContext } from '../context/context'
+import {SafeAreaView} from 'react-native';
+import { useAnimatedReaction } from 'react-native-reanimated'
 
 const SERVER_URL = 'http://192.168.0.198:5000'
-
-const toDataURL = url => fetch(url)
-  .then(response => response.blob())
-  .then(blob => new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onloadend = () => resolve(reader.result)
-    reader.onerror = reject
-    reader.readAsDataURL(blob)
-  }))
 
 export default ({ navigation }) => {
   const context = React.useContext(UserContext)
@@ -23,31 +16,57 @@ export default ({ navigation }) => {
 
 
   const [hasPermission, setHasPermission] = useState(null);
+  const [previewVisible, setPreviewVisible] = useState(false)
   const [type, setType] = useState(Camera.Constants.Type.back);
   const camera = React.useRef(null)
+  
   const takePicture = async() => {
     if (!camera) return
 
     const photo = await camera?.current?.takePictureAsync()
-    const base64 = await toDataURL(photo.uri)
+    setPreviewVisible(true)
+    setCapturedImage(photo)
+  }
 
-    const data = JSON.stringify({
-      uid: context.id,
-      height: photo.height,
-      width: photo.width,
-      image: base64
-    })
-    console.log(data)
+  const savePhoto = () => {
+    let uriParts = uri.split('.');
+    let fileType = uriParts[uriParts.length - 1];
+
+
+    const formdata = new FormData()
+    formdata.append('photo', { uri: localUri, name: `photo.${filename}`, type: `image/${fileType}` });
+    formdata.append('uid', context.id)
 
     fetch(`${SERVER_URL}/image/new`, {
       method: 'POST',
-      body: data,
       headers: {
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        'Content-Type': 'multipart/form-data',
       },
+      body: formdata
     })
-    console.log(photo, JSON.stringify(base64, null, 4))
   }
+
+  const retakePicture = () => {
+    setCapturedImage(null)
+    setPreviewVisible(false)
+    startCamera()
+  }
+
+  const startCamera = async () => {
+    const {status} = await Camera.requestPermissionsAsync()
+    console.log(status)
+    if (status === 'granted') {
+      setStartCamera(true)
+    }
+  }
+
+  // if (hasPermission === null) {
+  //   return <View />;
+  // }
+  // if (hasPermission === false) {
+  //   return <Text>{ "No access to camer" }</Text>;
+  // }
 
   useEffect(() => {
     (async () => {
@@ -56,62 +75,41 @@ export default ({ navigation }) => {
     })();
   }, []);
 
-  if (hasPermission === null) {
-    return <View />;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
   return (
-    <View style={styles.container}>
-      <Camera style={styles.camera} type={type} ref={camera}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <Text style={styles.text}> Flip </Text>
-          </TouchableOpacity>
+    <SafeAreaView style={{ flex: 1 }}>
+        { hasPermission ? (
+          <View style={{ flex: 1, width: '100%' }}>
+          { previewVisible && capturedImage ? (
+            <CameraPreview photo={capturedImage} savePhoto={savePhoto} retakePicture={retakePicture} />
+          ) : (
+            <Camera style={styles.camera} type={type} ref={camera}>
+              <View style={{ flex: 1, width: '100%', backgroundColor: 'transparent', flexDirection: 'row' }}>
+                <View style={{ position: 'absolute', bottom: 0,flexDirection: 'row',flex: 1, width: '100%', padding: 20, justifyContent: 'space-between' }}>
+                  <View style={{ alignSelf: 'center', flex: 1, alignItems: 'center' }}>
+                    <TouchableOpacity
+                      onPress={takePicture}
+                      style={{
+                        width: 90,
+                        height: 90,
+                        bottom: 30,
+                        borderRadius: 50,
+                        borderWidth: 9,
+                        borderColor: '#ffffffB6'
+                      }}
+                    />
+                  </View>
+                </View>
+              </View>
+            </Camera>            
+          )}
         </View>
-      </Camera>
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          flexDirection: 'row',
-          flex: 1,
-          width: '100%',
-          padding: 20,
-          justifyContent: 'space-between'
-        }}
-      >
-        <View
-          style={{
-            alignSelf: 'center',
-            flex: 1,
-            alignItems: 'center'
-          }}
-        >
-          <TouchableOpacity
-            onPress={takePicture}
-            style={{
-              width: 90,
-              height: 90,
-              bottom: 30,
-              borderRadius: 50,
-              borderWidth: 9,
-              borderColor: '#ffffffB6'
-            }}
-            />
-        </View>
-      </View>
-    </View>
-  );
+      
+        ) : (
+          <View />
+        ) }
+        
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({

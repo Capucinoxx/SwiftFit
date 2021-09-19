@@ -45,11 +45,6 @@ export default ({ navigation }) => {
     id && setID(id)
   }
 
-  
-  console.log(context)
-  if (context.id !== undefined) {
-    navigation.push('camera')
-  }
   const bottomSheetModalRef = React.useRef(null)
 
   const dynamicAnimation = useDynamicAnimation(() => ({
